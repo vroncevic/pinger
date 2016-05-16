@@ -29,9 +29,9 @@ This tool requires these other modules and libraries:
 	Sys::Hostname
 	Getopt::Long
 	Pod::Usage
-	Logging (from per-util project)
-	Configuration (from per-util project)
-	Notification (from per-util project)
+	Logging (from perl-util project)
+	Configuration (from perl-util project)
+	Notification (from perl-util project)
 
 COPYRIGHT AND LICENCE
 
