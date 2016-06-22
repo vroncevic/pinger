@@ -17,14 +17,16 @@ use lib dirname(dirname(abs_path($0))) . '/../../lib/perl5';
 use Logging;
 use Configuration;
 use Notification;
+use Status;
 
 my $cfg = dirname(dirname(abs_path($0))) . "/conf/pinger.cfg";
 my $log = dirname(dirname(abs_path($0))) . "/log/pinger.log";
+our $TOOL_DBG="false";
 
 #
 # @brief   Ping operation and logging statistics
 # @param   None
-# @retval  Success 0, else 1
+# @exitval Success 0, else 128, 129, 130
 #
 # @usage
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -36,7 +38,11 @@ sub pinger {
 	my $host = hostname();
 	my %preferences;
 	my $preferences_ref = \%preferences;
-	my $status = readpref($cfg, $preferences_ref);
+	my $status = 1;
+	$status = readpref($cfg, $preferences_ref);
+	if($status == $NOT_SUCCESS) {
+		exit(128);
+	}
 	my $ping_cmd = "ping -c5 " . $preferences{TARGET_HOST};
 	my %notification;
 	my $notification_ref=\%notification;
@@ -51,15 +57,23 @@ sub pinger {
 		    my $elt = $1;
 		    my $log_line = "ping to $preferences{TARGET_HOST}";
 			$logger{LOG_MESSAGE}="$log_line $elt ms";
-			logging($logger_ref);
+			$status = logging($logger_ref);
+			if($status == $NOT_SUCCESS) {
+				exit(129);
+			}
 		    if ($elt > 300) {
 		        $notification{MESSAGE}=$logger{LOG_MESSAGE};
-		        notify($notification_ref);
+		        $status = notify($notification_ref);
+		        if($status == $NOT_SUCCESS) {
+					exit(130);
+		        }
 		    } 
 		}
 	}
 	my $msg = "Done";
-	print("[Info] " . $fcaller . " " . $msg . "\n");
+	if($TOOL_DBG eq "true") {
+		print("[Info] " . $fcaller . " " . $msg . "\n");
+	}
 	exit(0);
 }
 
@@ -69,6 +83,9 @@ sub pinger {
 # @exitval Script tool pinger exit with integer value
 #			0   - success operation 
 # 			127 - run as root user
+# 			128 - failed to load Configuration
+# 			129 - failed to write log message 
+# 			130 - failed to send email
 #
 my $help = 0;
 my $man = 0;
@@ -159,4 +176,3 @@ This program is distributed under the Frobas License.
 =cut
 
 ################################ POD pinger.pl #################################
-
