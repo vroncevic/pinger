@@ -32,6 +32,7 @@ This tool requires these other modules and libraries:
 	Logging (from perl-util project)
 	Configuration (from perl-util project)
 	Notification (from perl-util project)
+	Status (from perl-util project)
 
 COPYRIGHT AND LICENCE
 
