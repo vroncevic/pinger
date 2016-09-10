@@ -42,4 +42,5 @@ This tool is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.18.2 or,
 at your option, any later version of Perl 5 you may have available.
 
-
+![alt tag](https://raw.githubusercontent.com/vroncevic/pinger/master/perl_icon_128x128.png)
+![alt tag](https://raw.githubusercontent.com/vroncevic/pinger/master/linux_logo_327_215.jpg)
