@@ -1,6 +1,5 @@
-# pinger
 Ping test analytic tool (Perl scripts)
-
+================================================================================
 The README is used to introduce the tool and provide instructions on
 how to install the tool, any machine dependencies it may have (for
 example C compilers and installed libraries) and any other information
