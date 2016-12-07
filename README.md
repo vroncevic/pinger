@@ -1,9 +1,8 @@
-Ping test analytic tool (Perl scripts)
+Ping test analytic tool (Perl scripts).
 ================================================================================
 The README is used to introduce the tool and provide instructions on
-how to install the tool, any machine dependencies it may have (for
-example C compilers and installed libraries) and any other information
-that should be provided before the tool is installed.
+how to install the tool, any machine dependencies it may have and any
+other information that should be provided before the tool is installed.
 
 A README file is required for CPAN modules since CPAN extracts the
 README file from a module distribution so that people browsing the
@@ -28,18 +27,19 @@ This tool requires these other modules and libraries:
 	Sys::Hostname
 	Getopt::Long
 	Pod::Usage
-	Logging (from perl-util project)
-	Configuration (from perl-util project)
-	Notification (from perl-util project)
-	Status (from perl-util project)
+	Logging 		https://github.com/vroncevic/perl-util
+	Configuration 	https://github.com/vroncevic/perl-util
+	Notification 	https://github.com/vroncevic/perl-util
+	Status 			https://github.com/vroncevic/perl-util
 
 COPYRIGHT AND LICENCE
 
-Copyright (C) 2016 by www.frobas.com
+Copyright (C) 2016 by https://github.com/vroncevic/pinger
 
 This tool is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.18.2 or,
 at your option, any later version of Perl 5 you may have available.
 
-![alt tag](https://raw.githubusercontent.com/vroncevic/pinger/master/perl_icon_128x128.png)
-![alt tag](https://raw.githubusercontent.com/vroncevic/pinger/master/linux_logo_327_215.jpg)
+![alt tag](https://raw.githubusercontent.com/vroncevic/pinger/master/perl_logo.png)
+![alt tag](https://raw.githubusercontent.com/vroncevic/pinger/master/linux_logo.jpg)
+
