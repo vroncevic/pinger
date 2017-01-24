@@ -11,14 +11,14 @@ use warnings;
 use Pod::Usage;
 use Sys::Hostname;
 use Getopt::Long;
-use File::Basename qw(dirname);
 use Cwd qw(abs_path);
+use File::Basename qw(dirname);
 use lib dirname(dirname(abs_path($0))) . '/../../lib/perl5';
+use Status qw($SUCCESS $NOT_SUCCESS check_status);
 use InfoDebugMessage qw(info_debug_message);
-use Logging qw(logging);
 use Configuration qw(read_preference);
 use Notification qw(notify);
-use Status;
+use Logging qw(logging);
 
 my $cfg = dirname(dirname(abs_path($0))) . "/conf/pinger.cfg";
 my $log = dirname(dirname(abs_path($0))) . "/log/pinger.log";
@@ -35,8 +35,7 @@ our $TOOL_DBG="false";
 # pinger()
 #
 sub pinger {
-	my ($host, $pingCmd, $msg);
-	my (%prefStruct, %notStruct, %logStruct);
+	my ($host, $pingCmd, $msg, %prefStruct, %notStruct, %logStruct);
 	if(read_preference($cfg, \%prefStruct) == $SUCCESS) {
 		$pingCmd = "ping -c5 " . $prefStruct{TARGET_HOST};
 		$notStruct{ADMIN_EMAIL} = $prefStruct{ADMIN_EMAIL};
