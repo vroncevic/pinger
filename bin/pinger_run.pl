@@ -9,68 +9,12 @@
 use strict;
 use warnings;
 use Pod::Usage;
-use Sys::Hostname;
 use Getopt::Long;
 use Cwd qw(abs_path);
 use File::Basename qw(dirname);
-use lib dirname(dirname(abs_path($0))) . '/../../lib/perl5';
-use Status qw($SUCCESS $NOT_SUCCESS check_status);
-use InfoDebugMessage qw(info_debug_message);
-use Configuration qw(read_preference);
-use Notification qw(notify);
-use Logging qw(logging);
-
-my $cfg = dirname(dirname(abs_path($0))) . "/conf/pinger.cfg";
-my $log = dirname(dirname(abs_path($0))) . "/log/pinger.log";
-our $TOOL_DBG="false";
-
-#
-# @brief   Ping operation and logging statistics
-# @param   None
-# @exitval Success 0, else 128, 129, 130
-#
-# @usage
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-# 
-# pinger()
-#
-sub pinger {
-	my ($host, $pingCmd, $msg, %prefStruct, %notStruct, %logStruct);
-	if(read_preference($cfg, \%prefStruct) == $SUCCESS) {
-		$pingCmd = "ping -c5 " . $prefStruct{TARGET_HOST};
-		$notStruct{ADMIN_EMAIL} = $prefStruct{ADMIN_EMAIL};
-		$host = hostname();
-		$notStruct{EMAIL_FROM} = "pinger\@$host";
-		$logStruct{LOG_FILE_PATH} = $log;
-		$msg = "Start ping command";
-		info_debug_message($msg);
-		open(PING_STUFF,"$pingCmd |");
-		my ($lyne, $elt, $logLine);
-		while($lyne = <PING_STUFF>) {
-			if($lyne =~ /time=(\S+)/) {
-				$elt = $1;
-				$logLine = "ping to $prefStruct{TARGET_HOST}";
-				$logStruct{LOG_MESSAGE} = "$logLine $elt ms";
-				if(logging(\%logStruct) == $SUCCESS) {
-					if($elt > 300) {
-						$notStruct{MESSAGE} = $logStruct{LOG_MESSAGE};
-						if(notify(\%notStruct) == $SUCCESS) {
-							next;
-						}
-						exit(130);
-					}
-					next;
-				}
-				exit(129);
-			}
-			next;
-		}
-		$msg = "Done";
-		info_debug_message($msg);
-		exit(0);
-	}
-	exit(128);
-}
+use lib dirname(dirname(abs_path($0))) . '/bin';
+use Pinger qw(pinger);
+our $TOOL_DBG = "false";
 
 #
 # @brief   Main entry point
@@ -88,7 +32,8 @@ my $man = 0;
 if(@ARGV > 0) {
 	GetOptions(
 		'help|?' => \$help,
-		'manual' => \$man) or pod2usage(2);
+		'manual' => \$man
+	) || pod2usage(2);
 }
 
 if($man || $help) {
