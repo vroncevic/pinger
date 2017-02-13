@@ -12,7 +12,7 @@ use Pod::Usage;
 use Getopt::Long;
 use Cwd qw(abs_path);
 use File::Basename qw(dirname);
-use lib dirname(dirname(abs_path($0))) . '/bin';
+use lib dirname(dirname(abs_path(__FILE__))) . '/bin';
 use Pinger qw(pinger);
 our $TOOL_DBG = "false";
 

@@ -22,15 +22,15 @@ DEPENDENCIES
 
 This tool requires these other modules and libraries:
 
-  	strict
+	strict
 	warnings
 	Sys::Hostname
 	Getopt::Long
 	Pod::Usage
-	Logging 		https://github.com/vroncevic/perl-util
-	Configuration 	https://github.com/vroncevic/perl-util
-	Notification 	https://github.com/vroncevic/perl-util
-	Status 			https://github.com/vroncevic/perl-util
+	Logging 		https://github.com/vroncevic/perl_util
+	Configuration 	https://github.com/vroncevic/perl_util
+	Notification 	https://github.com/vroncevic/perl_util
+	Status 			https://github.com/vroncevic/perl_util
 
 COPYRIGHT AND LICENCE
 

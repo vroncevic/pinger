@@ -12,7 +12,7 @@ use Exporter;
 use Sys::Hostname;
 use Cwd qw(abs_path);
 use File::Basename qw(dirname);
-use lib dirname(dirname(abs_path($0))) . '/../../lib/perl5';
+use lib abs_path(dirname(__FILE__)) . '/../../../lib/perl5';
 use InfoDebugMessage qw(info_debug_message);
 use Configuration qw(read_preference);
 use Notification qw(notify);
@@ -57,16 +57,14 @@ sub pinger {
 				if(logging(\%logStruct) == $SUCCESS) {
 					if($elt > 300) {
 						$notStruct{MESSAGE} = $logStruct{LOG_MESSAGE};
-						if(notify(\%notStruct) == $SUCCESS) {
-							next;
+						if(notify(\%notStruct) == $NOT_SUCCESS) {
+							exit(130);
 						}
-						exit(130);
 					}
-					next;
+				} else {
+					exit(129);
 				}
-				exit(129);
 			}
-			next;
 		}
 		$msg = "Done";
 		info_debug_message($msg);
