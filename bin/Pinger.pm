@@ -37,8 +37,8 @@ our $TOOL_DBG="false";
 #
 sub pinger {
 	my ($host, $pingCmd, $msg, %prefStruct, %notStruct, %logStruct, $cfg, $log);
-	$cfg = dirname(dirname(abs_path($0))) . "/conf/pinger.cfg";
-	$log = dirname(dirname(abs_path($0))) . "/log/pinger.log";
+	$cfg = dirname(dirname(abs_path(__FILE__))) . "/conf/pinger.cfg";
+	$log = dirname(dirname(abs_path(__FILE__))) . "/log/pinger.log";
 	if(read_preference($cfg, \%prefStruct) == $SUCCESS) {
 		$pingCmd = "ping -c5 " . $prefStruct{TARGET_HOST};
 		$notStruct{ADMIN_EMAIL} = $prefStruct{ADMIN_EMAIL};
