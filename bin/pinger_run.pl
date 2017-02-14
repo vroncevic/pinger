@@ -14,6 +14,10 @@ use Cwd qw(abs_path);
 use File::Basename qw(dirname);
 use lib dirname(dirname(abs_path(__FILE__))) . '/bin';
 use Pinger qw(pinger);
+use lib abs_path(dirname(__FILE__)) . '/../../../lib/perl5';
+use OrCheckStatus qw(or_check_status);
+use Utils qw(def);
+use Status;
 our $TOOL_DBG = "false";
 
 #
@@ -21,13 +25,13 @@ our $TOOL_DBG = "false";
 # @param   Value optional help | manual
 # @exitval Script tool pinger exit with integer value
 #			0   - success operation
-# 			127 - run as root user
-# 			128 - failed to load configuration from CFG file
-# 			129 - failed to write log message to LOG file
-# 			130 - failed to send email notification
+#			127 - run as root user
+#			128 - failed to:
+#				load configuration from CFG file or
+#				write log message to LOG file or
+#				send email notification
 #
-my $help = 0;
-my $man = 0;
+my ($help, $man, %morh);
 
 if(@ARGV > 0) {
 	GetOptions(
@@ -36,11 +40,13 @@ if(@ARGV > 0) {
 	) || pod2usage(2);
 }
 
-if($man || $help) {
-	if($help) {
+%morh = (HLP => def($help), MAN => def($man));
+
+if(or_check_status(\%morh) == $SUCCESS) {
+	if(def($help) == $SUCCESS) {
 		pod2usage(1);
 	}
-	if($man) {
+	if(def($man) == $SUCCESS) {
 		pod2usage(VERBOSE => 2);
 	}
 }
@@ -49,13 +55,16 @@ my $username = (getpwuid($>));
 my $uid = ($<);
 
 if(($username eq "root") && ($uid == 0)) {
-	pinger();
+	if(pinger() == $SUCCESS) {
+		exit(0);
+	}
+	exit(128);
 }
 
 exit(127);
 __END__
 
-################################ POD pinger.pl #################################
+############################## POD pinger_run.pl ###############################
 
 =head1 NAME
 
@@ -65,7 +74,7 @@ pinger - ping operation and logging statistics
 
 Use:
 
-	pinger [options] 
+	pinger [options]
 
 Examples:
 
@@ -116,4 +125,4 @@ This program is distributed under the Frobas License.
 
 =cut
 
-################################ POD pinger.pl #################################
+############################## POD pinger_run.pl ###############################

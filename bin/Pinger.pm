@@ -28,12 +28,24 @@ our $TOOL_DBG="false";
 #
 # @brief   Ping operation and logging statistics
 # @param   None
-# @exitval Success 0, else 128, 129, 130
+# @retval  Success 0, else 1
 #
 # @usage
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-# 
-# pinger()
+#
+# use Pinger qw(pinger);
+#
+# ...
+#
+# if(pinger() == $SUCCESS) {
+#	# true
+#	# notify admin | user
+# } else {
+#	# false
+#	# return $NOT_SUCCESS
+#	# or
+#	# exit 128
+# }
 #
 sub pinger {
 	my ($host, $pingCmd, $msg, %prefStruct, %notStruct, %logStruct, $cfg, $log);
@@ -58,19 +70,19 @@ sub pinger {
 					if($elt > 300) {
 						$notStruct{MESSAGE} = $logStruct{LOG_MESSAGE};
 						if(notify(\%notStruct) == $NOT_SUCCESS) {
-							exit(130);
+							return ($NOT_SUCCESS);
 						}
 					}
 				} else {
-					exit(129);
+					return ($NOT_SUCCESS);
 				}
 			}
 		}
 		$msg = "Done";
 		info_debug_message($msg);
-		exit(0);
+		return ($SUCCESS);
 	}
-	exit(128);
+	return ($NOT_SUCCESS);
 }
 
 1;
@@ -86,7 +98,15 @@ Pinger - Ping operation and logging statistics
 
 	...
 
-	pinger();
+	if(pinger() == $SUCCESS) {
+		# true
+		# notify admin | user
+	} else {
+		# false
+		# return $NOT_SUCCESS
+		# or
+		# exit 128
+	}
 
 =head1 DESCRIPTION 
 
@@ -94,7 +114,7 @@ Ping operation and logging statistics
 
 =head2 EXPORT
 
-pinger - None
+pinger - return 0 for success, else 1
 
 =head1 AUTHORS
 
