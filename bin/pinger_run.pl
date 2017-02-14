@@ -78,9 +78,9 @@ Use:
 
 Examples:
 
-	pinger help
+	pinger --help
 
-	pinger man
+	pinger --manual
 
 	# Ping operation and logging statistics
 
