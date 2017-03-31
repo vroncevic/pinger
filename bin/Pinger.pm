@@ -6,8 +6,8 @@ package Pinger;
 # @company  Frobas IT Department, www.frobas.com 2015
 # @author   Vladimir Roncevic <vladimir.roncevic@frobas.com>
 #
+use warnings FATAL => 'all';
 use strict;
-use warnings;
 use Sys::Hostname;
 use Cwd qw(abs_path);
 use File::Basename qw(dirname);
