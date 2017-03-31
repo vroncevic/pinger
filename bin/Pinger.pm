@@ -37,7 +37,7 @@ our $TOOL_DBG="false";
 #
 # ...
 #
-# if(pinger() == $SUCCESS) {
+# if(pinger()) {
 #	# true
 #	# notify admin | user
 # } else {
@@ -51,7 +51,7 @@ sub pinger {
 	my ($host, $pingCmd, $msg, %prefStruct, %notStruct, %logStruct, $cfg, $log);
 	$cfg = dirname(dirname(abs_path(__FILE__))) . "/conf/pinger.cfg";
 	$log = dirname(dirname(abs_path(__FILE__))) . "/log/pinger.log";
-	if(read_preference($cfg, \%prefStruct) == $SUCCESS) {
+	if(read_preference($cfg, \%prefStruct)) {
 		$pingCmd = "ping -c5 " . $prefStruct{TARGET_HOST};
 		$notStruct{ADMIN_EMAIL} = $prefStruct{ADMIN_EMAIL};
 		$host = hostname();
@@ -66,10 +66,10 @@ sub pinger {
 				$elt = $1;
 				$logLine = "ping to $prefStruct{TARGET_HOST}";
 				$logStruct{LOG_MESSAGE} = "$logLine $elt ms";
-				if(logging(\%logStruct) == $SUCCESS) {
+				if(logging(\%logStruct)) {
 					if($elt > 300) {
 						$notStruct{MESSAGE} = $logStruct{LOG_MESSAGE};
-						if(notify(\%notStruct) == $NOT_SUCCESS) {
+						if(not notify(\%notStruct)) {
 							return ($NOT_SUCCESS);
 						}
 					}
@@ -98,7 +98,7 @@ Pinger - Ping operation and logging statistics
 
 	...
 
-	if(pinger() == $SUCCESS) {
+	if(pinger()) {
 		# true
 		# notify admin | user
 	} else {

@@ -1,4 +1,4 @@
-Ping test analytic tool (Perl scripts).
+Ping test analytic tool (Perl codes).
 ================================================================================
 The README is used to introduce the tool and provide instructions on
 how to install the tool, any machine dependencies it may have and any

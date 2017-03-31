@@ -27,11 +27,11 @@ our $TOOL_DBG = "false";
 #			0   - success operation
 #			127 - run as root user
 #			128 - failed to:
-#				load configuration from CFG file or
-#				write log message to LOG file or
-#				send email notification
+#					load configuration from CFG file or
+#					write log message to LOG file or
+#					send email notification
 #
-my ($help, $man, %morh);
+my ($help, $man, %status);
 
 if(@ARGV > 0) {
 	GetOptions(
@@ -40,13 +40,13 @@ if(@ARGV > 0) {
 	) || pod2usage(2);
 }
 
-%morh = (HLP => def($help), MAN => def($man));
+%status = (HLP => def($help), MAN => def($man));
 
-if(or_check_status(\%morh) == $SUCCESS) {
-	if(def($help) == $SUCCESS) {
+if(or_check_status(\%status)) {
+	if(def($help)) {
 		pod2usage(1);
 	}
-	if(def($man) == $SUCCESS) {
+	if(def($man)) {
 		pod2usage(VERBOSE => 2);
 	}
 }
@@ -55,7 +55,7 @@ my $username = (getpwuid($>));
 my $uid = ($<);
 
 if(($username eq "root") && ($uid == 0)) {
-	if(pinger() == $SUCCESS) {
+	if(pinger()) {
 		exit(0);
 	}
 	exit(128);
