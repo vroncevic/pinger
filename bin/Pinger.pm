@@ -8,22 +8,23 @@ package Pinger;
 #
 use strict;
 use warnings;
-use Exporter;
 use Sys::Hostname;
 use Cwd qw(abs_path);
 use File::Basename qw(dirname);
-use lib abs_path(dirname(__FILE__)) . '/../../../lib/perl5';
+use Exporter;
+use vars qw($VERSION @ISA %EXPORT_TAGS @EXPORT_OK @EXPORT);
+$VERSION = '1.0';
+@ISA = qw(Exporter);
+@EXPORT = qw();
+%EXPORT_TAGS = ('all' => [qw(pinger)]);
+@EXPORT_OK = (@{$EXPORT_TAGS{'all'}});
+
+use lib '/usr/local/perl/lib/perl5';
 use InfoDebugMessage qw(info_debug_message);
 use Configuration qw(read_preference);
 use Notification qw(notify);
 use Logging qw(logging);
-use Status;
-our @ISA = qw(Exporter);
-our %EXPORT_TAGS = ('all' => [qw()]);
-our @EXPORT_OK = (@{$EXPORT_TAGS{'all'}});
-our @EXPORT = qw(pinger);
-our $VERSION = '1.0';
-our $TOOL_DBG="false";
+use Status qw(:all);
 
 #
 # @brief   Ping operation and logging statistics
@@ -42,7 +43,7 @@ our $TOOL_DBG="false";
 #	# notify admin | user
 # } else {
 #	# false
-#	# return $NOT_SUCCESS
+#	# return NOT_SUCCESS
 #	# or
 #	# exit 128
 # }
@@ -70,19 +71,20 @@ sub pinger {
 					if($elt > 300) {
 						$notStruct{MESSAGE} = $logStruct{LOG_MESSAGE};
 						if(not notify(\%notStruct)) {
-							return ($NOT_SUCCESS);
+							return (NOT_SUCCESS);
 						}
 					}
 				} else {
-					return ($NOT_SUCCESS);
+					return (NOT_SUCCESS);
 				}
 			}
 		}
 		$msg = "Done";
+		close(PING_STUFF);
 		info_debug_message($msg);
-		return ($SUCCESS);
+		return (SUCCESS);
 	}
-	return ($NOT_SUCCESS);
+	return (NOT_SUCCESS);
 }
 
 1;
@@ -103,7 +105,7 @@ Pinger - Ping operation and logging statistics
 		# notify admin | user
 	} else {
 		# false
-		# return $NOT_SUCCESS
+		# return NOT_SUCCESS
 		# or
 		# exit 128
 	}

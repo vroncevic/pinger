@@ -14,12 +14,11 @@ use Cwd qw(abs_path);
 use File::Basename qw(dirname);
 use lib dirname(dirname(abs_path(__FILE__))) . '/bin';
 use Pinger qw(pinger);
-use lib abs_path(dirname(__FILE__)) . '/../../../lib/perl5';
+use lib '/usr/local/perl/lib/perl5';
 use OrCheckStatus qw(or_check_status);
 use Utils qw(def);
-use Status;
+use Status qw(:all);
 our $TOOL_DBG = "false";
-
 #
 # @brief   Main entry point
 # @param   Value optional help | manual
