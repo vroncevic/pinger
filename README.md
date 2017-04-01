@@ -18,6 +18,10 @@ To install this tool type the following:
 	cp -R  ~/conf/  /root/scripts/pinger/ver.1.0/
 	cp -R  ~/log/   /root/scripts/pinger/ver.1.0/
 
+Location of perl-util:
+
+	/usr/local/perl/lib/perl5/
+
 DEPENDENCIES
 
 This tool requires these other modules and libraries:

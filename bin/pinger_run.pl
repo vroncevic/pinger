@@ -33,10 +33,7 @@ use Status qw(:all);
 my ($help, $man, %status);
 
 if(@ARGV > 0) {
-	GetOptions(
-		'help|?' => \$help,
-		'manual' => \$man
-	) || pod2usage(2);
+	GetOptions('help|?' => \$help, 'manual' => \$man) || pod2usage(2);
 }
 
 %status = (HLP => def($help), MAN => def($man));
