@@ -29,7 +29,7 @@ use Status qw(:all);
 #
 # @brief   Ping operation and logging statistics
 # @param   None
-# @retval  Success 0, else 1
+# @retval  Success 1, else 0
 #
 # @usage
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -116,7 +116,7 @@ Ping operation and logging statistics
 
 =head2 EXPORT
 
-pinger - return 0 for success, else 1
+pinger - return 1 for success, else 0
 
 =head1 AUTHORS
 
