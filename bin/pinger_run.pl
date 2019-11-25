@@ -25,38 +25,38 @@ use Status qw(:all);
 # @brief   Main entry point
 # @param   Value optional help | manual
 # @exitval Script tool pinger exit with integer value
-#			0   - success operation
-#			127 - run as root user
-#			128 - failed to:
-#					load configuration from CFG file or
-#					write log message to LOG file or
-#					send email notification
+#            0   - success operation
+#            127 - run as root user
+#            128 - failed to:
+#                    load configuration from CFG file or
+#                    write log message to LOG file or
+#                    send email notification
 #
 my ($help, $man, %status);
 
 if(@ARGV > 0) {
-	GetOptions('help|?' => \$help, 'manual' => \$man) || pod2usage(2);
+    GetOptions('help|?' => \$help, 'manual' => \$man) || pod2usage(2);
 }
 
 %status = (HLP => def($help), MAN => def($man));
 
 if(or_check_status(\%status)) {
-	if(def($help)) {
-		pod2usage(1);
-	}
-	if(def($man)) {
-		pod2usage(VERBOSE => 2);
-	}
+    if(def($help)) {
+        pod2usage(1);
+    }
+    if(def($man)) {
+        pod2usage(VERBOSE => 2);
+    }
 }
 
 my $username = (getpwuid($>));
 my $uid = ($<);
 
 if(($username eq "root") && ($uid == 0)) {
-	if(pinger()) {
-		exit(0);
-	}
-	exit(128);
+    if(pinger()) {
+        exit(0);
+    }
+    exit(128);
 }
 
 exit(127);
@@ -72,17 +72,17 @@ pinger - ping operation and logging statistics
 
 Use:
 
-	pinger [options]
+    pinger [options]
 
 Examples:
 
-	pinger --help
+    pinger --help
 
-	pinger --manual
+    pinger --manual
 
-	# Ping operation and logging statistics
+    # Ping operation and logging statistics
 
-	pinger
+    pinger
 
 =head1 DESCRIPTION
 
@@ -96,13 +96,13 @@ pinger takes the following arguments:
 
 =item help
 
-	help
+    help
 
 (Optional.) Show help info information
 
 =item manual
 
-	help
+    help
 
 (Optional.) Display manual information
 
