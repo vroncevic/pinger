@@ -39,52 +39,52 @@ use Status qw(:all);
 # ...
 #
 # if(pinger()) {
-#	# true
-#	# notify admin | user
+#    # true
+#    # notify admin | user
 # } else {
-#	# false
-#	# return NOT_SUCCESS
-#	# or
-#	# exit 128
+#    # false
+#    # return NOT_SUCCESS
+#    # or
+#    # exit 128
 # }
 #
 sub pinger {
-	my ($host, $pingCmd, $msg, %prefStruct, %notStruct, %logStruct, $cfg, $log);
-	$cfg = dirname(dirname(abs_path(__FILE__))) . "/conf/pinger.cfg";
-	$log = dirname(dirname(abs_path(__FILE__))) . "/log/pinger.log";
-	if(read_preference($cfg, \%prefStruct)) {
-		$pingCmd = "ping -c5 " . $prefStruct{TARGET_HOST};
-		$notStruct{ADMIN_EMAIL} = $prefStruct{ADMIN_EMAIL};
-		$host = hostname();
-		$notStruct{EMAIL_FROM} = "pinger\@$host";
-		$logStruct{LOG_FILE_PATH} = $log;
-		$msg = "Start ping command";
-		info_debug_message($msg);
-		open(PING_STUFF,"$pingCmd |");
-		my ($lyne, $elt, $logLine);
-		while($lyne = <PING_STUFF>) {
-			if($lyne =~ /time=(\S+)/) {
-				$elt = $1;
-				$logLine = "ping to $prefStruct{TARGET_HOST}";
-				$logStruct{LOG_MESSAGE} = "$logLine $elt ms";
-				if(logging(\%logStruct)) {
-					if($elt > 300) {
-						$notStruct{MESSAGE} = $logStruct{LOG_MESSAGE};
-						if(not notify(\%notStruct)) {
-							return (NOT_SUCCESS);
-						}
-					}
-				} else {
-					return (NOT_SUCCESS);
-				}
-			}
-		}
-		$msg = "Done";
-		close(PING_STUFF);
-		info_debug_message($msg);
-		return (SUCCESS);
-	}
-	return (NOT_SUCCESS);
+    my ($host, $pingCmd, $msg, %prefStruct, %notStruct, %logStruct, $cfg, $log);
+    $cfg = dirname(dirname(abs_path(__FILE__))) . "/conf/pinger.cfg";
+    $log = dirname(dirname(abs_path(__FILE__))) . "/log/pinger.log";
+    if(read_preference($cfg, \%prefStruct)) {
+        $pingCmd = "ping -c5 " . $prefStruct{TARGET_HOST};
+        $notStruct{ADMIN_EMAIL} = $prefStruct{ADMIN_EMAIL};
+        $host = hostname();
+        $notStruct{EMAIL_FROM} = "pinger\@$host";
+        $logStruct{LOG_FILE_PATH} = $log;
+        $msg = "Start ping command";
+        info_debug_message($msg);
+        open(PING_STUFF,"$pingCmd |");
+        my ($lyne, $elt, $logLine);
+        while($lyne = <PING_STUFF>) {
+            if($lyne =~ /time=(\S+)/) {
+                $elt = $1;
+                $logLine = "ping to $prefStruct{TARGET_HOST}";
+                $logStruct{LOG_MESSAGE} = "$logLine $elt ms";
+                if(logging(\%logStruct)) {
+                    if($elt > 300) {
+                        $notStruct{MESSAGE} = $logStruct{LOG_MESSAGE};
+                        if(not notify(\%notStruct)) {
+                            return (NOT_SUCCESS);
+                        }
+                    }
+                } else {
+                    return (NOT_SUCCESS);
+                }
+            }
+        }
+        $msg = "Done";
+        close(PING_STUFF);
+        info_debug_message($msg);
+        return (SUCCESS);
+    }
+    return (NOT_SUCCESS);
 }
 
 1;
@@ -96,19 +96,19 @@ Pinger - Ping operation and logging statistics
 
 =head1 SYNOPSIS
 
-	use Pinger qw(pinger);
+    use Pinger qw(pinger);
 
-	...
+    ...
 
-	if(pinger()) {
-		# true
-		# notify admin | user
-	} else {
-		# false
-		# return NOT_SUCCESS
-		# or
-		# exit 128
-	}
+    if(pinger()) {
+        # true
+        # notify admin | user
+    } else {
+        # false
+        # return NOT_SUCCESS
+        # or
+        # exit 128
+    }
 
 =head1 DESCRIPTION 
 
